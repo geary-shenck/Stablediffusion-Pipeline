@@ -3,13 +3,13 @@ from flask import Flask, render_template, request
 from flask_ngrok import run_with_ngrok
 
 import torch
-from diffusers import StableDiffustionPipeline
+from diffusers import StableDiffusionPipeline
 
 import base64
 from io import BytesIO
 
 #model
-sd_pipeline = StableDiffustionPipeline.from_pretrained(
+sd_pipeline = StableDiffusionPipeline.from_pretrained(
     "runwayml/stable-diffusion-v1-5",revision="fp16", torch_dtype=torch.float16
 )
 
