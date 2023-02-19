@@ -1,4 +1,4 @@
-#imports
+
 from flask import Flask, render_template, request
 from flask_ngrok import run_with_ngrok
 
@@ -26,14 +26,18 @@ def initial():
 @web_app.route("/submit-prompt", methods=["POST"])
 def generate_image():
     prompt_user = request.form["prompt-input"]
+    print(f"generating {prompt_user}")
+
     image_returned = sd_pipeline(prompt_user).images[0]
+    print("generated")
 
     buffered_img = BytesIO()
     image_returned.save(buffered_img, format="PNG")
-    image_string = base64.b64decode(buffered_img.getvalue())
-    image_string= "data:image/png;base64," + str(image_string)[2:-1]
+    image_string = base64.b64encode(buffered_img.getvalue())
+    fin_string= "data:image/png;base64," + str(image_string)[2:-1]
+    print("sent")
 
-    return render_template("index.html",generate_image = image_string)
+    return render_template("index.html",generate_image = fin_string)
 
 if __name__ == "__main__":
     web_app.run()
